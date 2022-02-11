@@ -84,7 +84,6 @@ listen_addrs(#libp2p_signed_peer_pb{peer=#libp2p_peer_pb{listen_addrs=Addrs}}) -
 raw_listen_addrs(#libp2p_signed_peer_pb{peer=#libp2p_peer_pb{listen_addrs=Addrs}}) ->
     Addrs.
 
-
 %% @doc Gets the list of peer crypto addresses that the given peer was last
 %% known to be connected to.
 -spec connected_peers(peer()) -> [libp2p_crypto:pubkey_bin()].
@@ -303,7 +302,9 @@ has_public_ip(Peer) ->
 -spec has_private_ip(peer()) -> boolean().
 has_private_ip(Peer) ->
     ListenAddresses = ?MODULE:listen_addrs(Peer),
-    not lists:all(fun libp2p_transport_tcp:is_public/1, [ L || L <- ListenAddresses, libp2p_transport_tcp:match_addr(L) /= false]).
+    not lists:all(fun libp2p_transport_tcp:is_public/1, [ L || L <- ListenAddresses,
+                                                               libp2p_transport_tcp:match_addr(L) /= false]).
+
 %% @doc Returns whether the peer is dialable. A peer is dialable if it
 %% has a public IP address or it is reachable via a relay address.
 is_dialable(Peer) ->

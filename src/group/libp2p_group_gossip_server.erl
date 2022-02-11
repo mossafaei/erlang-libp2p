@@ -70,31 +70,31 @@ handle_data(_Pid, StreamPid, Kind, Peer, Key, TID, {Path, Bin}) ->
             _ ->
                 {Path, Bin}
         end,
-        lager:info("gossip data from peer ~p ~p", [Kind, Peer]),
-        %% check the cache, see the lookup_handler function for details
-        case lookup_handler(TID, Key) of
-            error ->
-                ok;
-            {ok, M, S} ->
-                %% Catch the callback response. This avoids a crash in the
-                %% handler taking down the gossip worker itself.
-                try M:handle_gossip_data(StreamPid, Kind, Peer, ListOrData, S) of
-                    {reply, Reply} ->
-                        %% handler wants to reply
-                        %% NOTE - This routes direct via libp2p_framed_stream:send/2 and not via the group worker
-                        %%        As such we need to encode at this point, and send raw..no encoding actions
-                        case (catch libp2p_gossip_stream:encode(Key, Reply, Path)) of
-                            {'EXIT', Error} ->
-                                lager:warning("Error encoding gossip data ~p", [Error]);
-                            ReplyMsg ->
-                                {reply, ReplyMsg}
-                        end;
-                    _ ->
-                        ok
-                catch _:_ ->
-                          ok
-                end
-        end.
+    lager:info("gossip data from peer ~p ~p", [Kind, Peer]),
+    %% check the cache, see the lookup_handler function for details
+    case lookup_handler(TID, Key) of
+        error ->
+            ok;
+        {ok, M, S} ->
+            %% Catch the callback response. This avoids a crash in the
+            %% handler taking down the gossip worker itself.
+            try M:handle_gossip_data(StreamPid, Kind, Peer, ListOrData, S) of
+                {reply, Reply} ->
+                    %% handler wants to reply
+                    %% NOTE - This routes direct via libp2p_framed_stream:send/2 and not via the group worker
+                    %%        As such we need to encode at this point, and send raw..no encoding actions
+                    case (catch libp2p_gossip_stream:encode(Key, Reply, Path)) of
+                        {'EXIT', Error} ->
+                            lager:warning("Error encoding gossip data ~p", [Error]);
+                        ReplyMsg ->
+                            {reply, ReplyMsg}
+                    end;
+                _ ->
+                    ok
+            catch _:_ ->
+                    ok
+            end
+    end.
 
 accept_stream(Pid, SessionPid, StreamPid, Path) ->
     Ref = erlang:monitor(process, Pid),

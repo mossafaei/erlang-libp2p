@@ -93,9 +93,6 @@ handle_info({handle_identify, Session, {ok, Identify}}, State=#state{tid=TID}) -
 handle_info({'DOWN', MonitorRef, process, _Pid, _Reason}, State=#state{pid_gc_monitor=MonitorRef}) ->
     erlang:send_after(timer:minutes(5), self(), gc_pids),
     {noreply, State};
-handle_info({'DOWN', MonitorRef, process, _Pid, _Reason}, State=#state{pid_gc_monitor=MonitorRef}) ->
-    erlang:send_after(timer:minutes(5), self(), gc_pids),
-    {noreply, State};
 handle_info({'DOWN', MonitorRef, process, Pid, _}, State=#state{tid=TID}) ->
     NewState = remove_monitor(MonitorRef, Pid, State),
     spawn(fun() ->
