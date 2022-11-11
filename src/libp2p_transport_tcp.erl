@@ -93,8 +93,8 @@
          stungun_timeout_count = 0 :: non_neg_integer()
         }).
 
--define(DEFAULT_MAX_TCP_CONNECTIONS, 1024).
--define(DEFAULT_MAX_TCP_ACCEPTORS, 10).
+-define(DEFAULT_MAX_TCP_CONNECTIONS, 2048).
+-define(DEFAULT_MAX_TCP_ACCEPTORS, 2048).
 
 %% libp2p_transport
 %%
