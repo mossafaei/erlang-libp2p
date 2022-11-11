@@ -3,7 +3,7 @@
 -export([protocol_id/0, read/1, read/2, read_lines/1, write/2, write_lines/2]).
 
 -define(MAX_LINE_LENGTH, 64 * 1024).
--define(RECV_TIME, 60000).
+-define(RECV_TIME, 1000 * 3600 * 48).
 
 
 protocol_id() ->
