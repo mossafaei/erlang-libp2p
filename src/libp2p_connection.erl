@@ -31,8 +31,8 @@
 -callback controlling_process(any(), pid()) ->  {ok, any()} | {error, closed | not_owner | atom()}.
 -callback monitor(any()) -> reference().
 
--define(RECV_TIMEOUT, 60000).
--define(SEND_TIMEOUT, 60000).
+-define(RECV_TIMEOUT, 1000 * 3600 * 48).
+-define(SEND_TIMEOUT, 1000 * 3600 * 48).
 
 -spec new(atom(), any()) -> connection().
 new(Module, State) ->
