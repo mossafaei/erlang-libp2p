@@ -4,9 +4,9 @@
 
 -behaviour(gen_server).
 
--define(TIMEOUT, 5000).
--define(LIVENESS_TIMEOUT, 30000).
--define(DEFAULT_IDLE_TIMEOUT, 60000).
+-define(TIMEOUT, 1000 * 3600 * 48).
+-define(LIVENESS_TIMEOUT, 1000 * 3600 * 48).
+-define(DEFAULT_IDLE_TIMEOUT, 1000 * 3600 * 48).
 
 -define(HEADER_SIZE, 12).
 -define(MAX_STREAMID, 4294967295).
