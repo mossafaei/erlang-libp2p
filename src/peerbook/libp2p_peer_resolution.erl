@@ -81,7 +81,7 @@ handle_gossip_data(_StreamPid, Kind, GossipPeer, {_Path, Data}, Handle) ->
                                     end;
                                 _ ->
                                     lager:debug("ARP response for ~p Failed - notfound", [libp2p_crypto:pubkey_bin_to_p2p(PK)]),
-                                    maybe_re_resolve(Handle, ReRequest, PK, Ts),
+                                    maybe_re_resolve(Handle, true, PK, Ts),
                                     %% don't have this peer
                                     noreply
                             end;
